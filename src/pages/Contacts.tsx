@@ -98,10 +98,15 @@ export default function Contacts() {
     []
   );
 
+  const columnFilters = useMemo(
+    () => (status === 'all' ? [] : [{ id: 'status', value: status }]),
+    [status]
+  );
+
   const table = useReactTable({
     data: data ?? [],
     columns,
-    state: { sorting, globalFilter: search, columnFilters: status === 'all' ? [] : [{ id: 'status', value: status }] },
+    state: { sorting, globalFilter: search, columnFilters },
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
