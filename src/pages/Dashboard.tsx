@@ -18,6 +18,21 @@ import { PageHeader } from '../components/Layout';
 import type { ActivityType } from '../types';
 import { STAGE_LABELS, formatMoney, formatDateShort, timeAgo } from '../utils';
 
+const funnyQuotes = [
+  "I put the 'pro' in procrastinate.",
+  "My to-do list is longer than a CVS receipt.",
+  "I'm not lazy, I'm in energy-saving mode.",
+  "I pretend to work, they pretend to pay me.",
+  "I don't need an inspirational quote, I need coffee.",
+  "I'm not arguing, I'm just explaining why I'm right.",
+  "My brain has too many tabs open.",
+  "I'm not a morning person, I'm a coffee person.",
+  "I put the 'elusive' in 'elusive workplace productivity'.",
+  "I'm not ignoring you, I'm just in my own world.",
+  "My bed is a magical place where I suddenly remember everything I forgot to do.",
+  "I'm not shy, I'm just holding back my awesomeness so I don't intimidate you."
+];
+
 const AMBER = '#ecad0a';
 const BLUE = '#209dd7';
 
@@ -34,34 +49,42 @@ const ACTIVITY_COLOR: Record<ActivityType, { bg: string; color: string }> = {
 };
 
 export default function Dashboard() {
-  const { data, loading, error, refresh } = useAsync(() => api.getDashboard(), []);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+    const { data, loading, error, refresh } = useAsync(() => api.getDashboard(), []);
+    const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  if (loading || !data) return <Loading />;
-  if (error) return <ErrorBanner message={error} />;
+    if (loading || !data) return <Loading />;
+    if (error) return <ErrorBanner message={error} />;
 
-  const toggleTask = async (id: number) => {
-    setErrorMsg(null);
-    try {
-      await api.setActivityDone(id, true);
-      await refresh();
-    } catch (err) {
-      setErrorMsg(err instanceof Error ? err.message : 'Failed to update task');
-    }
-  };
+    const toggleTask = async (id: number) => {
+      setErrorMsg(null);
+      try {
+        await api.setActivityDone(id, true);
+        await refresh();
+      } catch (err) {
+        setErrorMsg(err instanceof Error ? err.message : 'Failed to update task');
+      }
+    };
 
-  const kpis = data.kpis;
+    const kpis = data.kpis;
 
-  const funnelData = data.pipeline.map((p) => ({
-    name: STAGE_LABELS[p.stage],
-    value: p.expectedRevenue,
-    count: p.count
-  }));
+    const funnelData = data.pipeline.map((p) => ({
+      name: STAGE_LABELS[p.stage],
+      value: p.expectedRevenue,
+      count: p.count
+    }));
 
-  return (
-    <div>
-      <PageHeader title="Dashboard" subtitle="How your sales are going" />
-      {errorMsg && <ErrorBanner message={errorMsg} />}
+    const getRandomQuote = () => {
+      const index = Math.floor(Math.random() * funnyQuotes.length);
+      return funnyQuotes[index];
+    };
+
+    return (
+      <div>
+        <PageHeader title="Dashboard" subtitle="How your sales are going" />
+        <div className="funny-quote">
+          <p>{getRandomQuote()}</p>
+        </div>
+        {errorMsg && <ErrorBanner message={errorMsg} />}
 
       <div className="kpi-grid">
         <Kpi

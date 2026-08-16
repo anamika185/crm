@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "concurrently -k -n api,web -c blue,yellow \"npm:dev:api\" \"npm:dev:web\"",
     "dev:web": "vite",
-    "dev:api": "tsx watch server/index.ts",
+    "dev:api": "set PORT=3001&& tsx watch server/index.ts",
     "build": "tsc --noEmit && vite build",
     "start": "node scripts/start.mjs",
     "test": "vitest run",

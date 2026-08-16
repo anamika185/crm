@@ -1212,6 +1212,24 @@ table.data tr:hover .row-actions {
   padding: 18px 8px;
 }
 
+/* ---------- Funny Quote ---------- */
+.funny-quote {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, var(--amber-light) 0%, var(--purple-light) 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.funny-quote p {
+  margin: 0;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--gray-700);
+  line-height: 1.5;
+}
+
 /* ---------- Misc ---------- */
 .muted {
   color: var(--gray-500);
